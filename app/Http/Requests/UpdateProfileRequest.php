@@ -14,13 +14,13 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'nullable|string|max:255',
-            'username'          => 'nullable|string|max:255|unique:users,username,' . $this->user()->id,
-            'email'             => 'nullable|email|max:255|unique:users,email,' . $this->user()->id,
-            'about_me'          => 'nullable|string|max:500',
-            'avatar'            => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'current_password'  => 'nullable|string',
-            'new_password'      => 'nullable|string|min:8|confirmed',
+            'name'              => 'required|string|max:255',
+            'username'          => 'required|string|max:255|unique:users,username,' . $this->user()->id,
+            'email'             => 'required|email|max:255|unique:users,email,' . $this->user()->id,
+            'about_me'          => 'required|string|max:500',
+            'avatar'            => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'current_password'  => 'required|string',
+            'new_password'      => 'required|string|min:8|confirmed',
         ];
     }
 

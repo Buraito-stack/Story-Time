@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin\V1\UserManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserCollection;
+use App\Http\Resources\Admin\V1\UserCollection;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,7 +35,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user): JsonResponse
+    public function show(User $user)
     {
         return response()->json($user);
     }
@@ -43,7 +43,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user): JsonResponse
+    public function destroy(User $user)
     {
         $user->delete();
         return response()->noContent(); 

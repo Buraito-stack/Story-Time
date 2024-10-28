@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'name'     => $this->name,
             'username' => $this->username,
             'email'    => $this->email,
-            'avatar'   => $this->avatar, 
+            'avatar'   => $this->getAvatarUrlAttribute(), 
         ];
     }
 }

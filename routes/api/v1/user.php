@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Api\User\V1\Me\StoryManagement\StoryController;
 use App\Http\Controllers\Api\User\V1\Auth\AuthController;
-use App\Http\Controllers\Api\User\V1\Dashboard\DashboardController;
+use App\Http\Controllers\Api\User\V1\Stories\PublicStoryController;
 use App\Http\Controllers\Api\User\V1\Me\Profile\ProfileController;
-use App\Http\Controllers\Api\User\V1\Bookmark\BookmarkController;
+use App\Http\Controllers\Api\User\V1\Me\Bookmark\BookmarkController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1/user')->group(function () {
@@ -18,38 +18,44 @@ Route::prefix('v1/user')->group(function () {
         });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::controller(DashboardController::class)
-            ->prefix('dashboard')
-            ->name('dashboard.')
+        Route::controller(PublicStoryController::class)
+            ->prefix('stories')
+            ->name('public.stories.')
             ->group(function () {
                 Route::get('/', 'index')->name('index'); 
                 Route::get('/{story}', 'show')->name('show'); 
             });
 
-        Route::controller(ProfileController::class)
-            ->prefix('profile')
-            ->name('profile.')
+        Route::prefix('me')
+            ->name('me.')
             ->group(function () {
-                Route::get('/', 'show')->name('show');
-                Route::put('/', 'update')->name('update'); 
-            });
+            Route::controller(ProfileController::class)
+                ->prefix('profile')
+                ->name('profile.')
+                ->group(function () {
+                    Route::get('/', 'show')->name('show');
+                    Route::put('/', 'update')->name('update');
+                });
 
-        Route::controller(BookmarkController::class)
-            ->prefix('bookmarks')
-            ->name('bookmarks.')
-            ->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::post('/{story}', 'bookmark')->name('bookmark');
-                Route::delete('/{story}', 'destroy')->name('destroy');
-            });
+            Route::controller(BookmarkController::class)
+                ->prefix('bookmarks')
+                ->name('bookmarks.')
+                ->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/{story}', 'bookmark')->name('bookmark');
+                    Route::delete('/{story}', 'destroy')->name('destroy');
+                });
 
-        Route::controller(StoryController::class)
-            ->prefix('stories')
-            ->name('stories.')
-            ->group(function () {
-                Route::get('', 'index')->name('index');
-                Route::get('/{story}', 'show')->name('show');
-                Route::delete('/{story}', 'destroy')->name('destroy');
-            });
+            Route::controller(StoryController::class)
+                ->prefix('stories')
+                ->name('stories.')
+                ->group(function () {
+                    Route::get('', 'index')->name('index');
+                    Route::get('/{story}', 'show')->name('show');
+                    Route::post('', 'store')->name('store');
+                    Route::put('/{story}', 'update')->name('update');
+                    Route::delete('/{story}', 'destroy')->name('destroy');
+                });
+        });
     });
 });

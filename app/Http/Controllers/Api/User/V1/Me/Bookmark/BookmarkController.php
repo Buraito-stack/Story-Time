@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\User\V1\Bookmark;
+namespace App\Http\Controllers\Api\User\V1\Me\Bookmark;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StoryResource; 
+use App\Http\Resources\User\V1\StoryResource; 
 use App\Models\Story;
 use Illuminate\Support\Facades\Auth;
 

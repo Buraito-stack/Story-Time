@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Api\User\V1\Dashboard;
+namespace App\Http\Controllers\Api\User\V1\Stories;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StoryResource;
+use App\Http\Resources\User\V1\FullStoryResource;
+use App\Http\Resources\User\V1\StoryResource;
 use App\Models\Story;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class PublicStoryController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->input('sortBy', 'newest'); 
+        $sortBy = $request->input('sort_by', 'newest'); 
         $category = $request->input('category', null); 
         $search = $request->input('search', null); 
     
@@ -49,11 +50,11 @@ class DashboardController extends Controller
                 break;
         }
     
-        $dashboard = $query->with(['author.profilePicture', 'category'])
+        $stories = $query->with(['author.profilePicture', 'category'])
                           ->paginate(10)
                           ->withQueryString(); 
     
-        return StoryResource::collection($dashboard);
+        return StoryResource::collection($stories);
     }   
 
     /**
@@ -61,6 +62,8 @@ class DashboardController extends Controller
      */
     public function show(Story $story) 
     {
-        return new StoryResource($story);
+        $story->increment('views');
+        
+        return new FullStoryResource($story);
     }
 }

@@ -15,7 +15,7 @@ class StoryFactory extends Factory
     {
         return [
             'title'       => $this->faker->sentence,
-            'author_id'   => User::factory(), 
+            'user_id'     => User::factory(), 
             'category_id' => Category::inRandomOrder()->first()->id, 
             'content'     => $this->generateLongContent(),
             'views'       => $this->faker->numberBetween(0, 1000), 

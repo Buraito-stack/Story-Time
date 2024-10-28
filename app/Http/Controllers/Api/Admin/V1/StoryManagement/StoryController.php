@@ -3,33 +3,26 @@
 namespace App\Http\Controllers\Api\Admin\V1\StoryManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StoryResource;
+use App\Http\Resources\Admin\V1\StoryResource;
+use App\Http\Resources\Admin\V1\FullStoryResource;
 use App\Models\Story;
-use Illuminate\Http\Request;
 
 class StoryController extends Controller
 {
-    /**
-     * Display a listing of all stories.
-     */
     public function index()
     {
-        $stories = Story::with(['author', 'category'])->get();
-        
-        return StoryResource::collection($stories); 
-    }
+        $stories = Story::with(['author', 'category', 'coverImage'])->paginate(10);
 
-    /**
-     * Display the specified resource.
-     */
+        return StoryResource::collection($stories);
+    }
+    
     public function show(Story $story)
-    {
-        return new StoryResource($story);
+    { 
+        $story->load(['author', 'category']);
+    
+        return new FullStoryResource($story);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Story $story) 
     {
         $story->delete();

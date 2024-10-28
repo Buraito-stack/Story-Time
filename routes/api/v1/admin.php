@@ -33,9 +33,7 @@ Route::prefix('v1/admin')->group(function () {
             ->name('users.')
             ->group(function () {
                 Route::get('', 'index')->name('index'); 
-                Route::post('', 'store')->name('store'); 
                 Route::get('/{user}', 'show')->name('show'); 
-                Route::put('/{user}', 'update')->name('update'); 
                 Route::delete('/{user}', 'destroy')->name('destroy');
             });
         
@@ -44,8 +42,7 @@ Route::prefix('v1/admin')->group(function () {
             ->name('stories.')
             ->group(function () {
                 Route::get('', 'index')->name('index');
-                Route::post('', 'store')->name('store');
-                Route::put('/{user}', 'update')->name('update'); 
+                Route::get('/{story}', 'show')->name('show');
                 Route::delete('/{story}', 'destroy')->name('destroy');
             });
     });
