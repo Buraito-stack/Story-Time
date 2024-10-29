@@ -49,7 +49,7 @@ class PublicStoryController extends Controller
         }
     
         $stories = $query->with(['author.profilePicture', 'category'])
-                          ->paginate(10)
+                          ->paginate(12)
                           ->withQueryString(); 
     
         return StoryResource::collection($stories);
