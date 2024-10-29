@@ -42,6 +42,6 @@ class Story extends Model
 
     public function getCoverImageUrlAttribute()
     {
-        return $this->coverImage ? asset($this->coverImage->file_path) : null;
+        return $this->coverImage ? asset('storage/' . $this->coverImage->file_path) : null;
     }
 }
