@@ -79,7 +79,8 @@ class ProfileController extends Controller
             return false;
         }
 
-        $user->password = $request->new_password; 
+        $user->password = $request->new_password;
+        $user->save(); 
         return true;
     }
 }
