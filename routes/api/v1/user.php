@@ -20,7 +20,7 @@ Route::prefix('v1/user')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::controller(PublicStoryController::class)
             ->prefix('stories')
-            ->name('public.stories.')
+            ->name('stories.')
             ->group(function () {
                 Route::get('/', 'index')->name('index'); 
                 Route::get('/{story}', 'show')->name('show'); 
@@ -48,7 +48,7 @@ Route::prefix('v1/user')->group(function () {
 
             Route::controller(StoryController::class)
                 ->prefix('stories')
-                ->name('stories.')
+                ->name('stories.management.')
                 ->group(function () {
                     Route::get('', 'index')->name('index');
                     Route::get('/{story}', 'show')->name('show');

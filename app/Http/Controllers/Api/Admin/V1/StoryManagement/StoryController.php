@@ -19,9 +19,7 @@ class StoryController extends Controller
         $query = Story::query();
     
         if ($category) {
-            $query->whereHas('category', function ($q) use ($category) {
-                $q->where('name', $category);
-            });
+            $query->where('category_id', $category);
         }
     
         if ($search) {
