@@ -47,13 +47,13 @@ class StoryController extends Controller
         }
     
         $stories = $query->with(['author.profilePicture', 'category'])
+                          ->withCount('bookmarks')
                           ->paginate(10)
                           ->withQueryString(); 
     
         return StoryResource::collection($stories);
     }   
 
-    
     public function show(Story $story)
     { 
         $story->load(['author', 'category']);

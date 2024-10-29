@@ -50,9 +50,9 @@ class User extends Authenticatable
 
     public function getAvatarUrlAttribute()
     {
-        return $this->profilePicture ? asset($this->profilePicture->file_path) : null;
+        return $this->profilePicture ? asset('storage/' . $this->profilePicture->file_path) : null;
     }
-
+    
     // Mutator
     public function setPasswordAttribute($password)
     {

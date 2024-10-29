@@ -51,6 +51,11 @@ class PublicStoryController extends Controller
         $stories = $query->with(['author.profilePicture', 'category'])
                           ->paginate(12)
                           ->withQueryString(); 
+          
+        $storyIds = $stories->pluck('id');
+        
+        $bookmarks = Auth::user()->bookmarks()
+            ->whereIn('id' , $storyIds);
     
         return StoryResource::collection($stories);
     }   

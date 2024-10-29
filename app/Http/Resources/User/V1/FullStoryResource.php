@@ -21,7 +21,7 @@ class FullStoryResource extends JsonResource
                 'avatar' => $this->author->getAvatarUrlAttribute(),
             ],
             'category'    => [
-                'id'   => $this->category->name,
+                'id'   => $this->category->id,
                 'name' => $this->category->name, 
             ], 
             'content'     => $this->content,

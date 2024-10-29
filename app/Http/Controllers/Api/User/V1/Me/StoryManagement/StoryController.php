@@ -86,7 +86,7 @@ class StoryController extends Controller
         return response()->noContent(); 
     } catch (AuthorizationException $e) {
         return response()->json(['message' => 'This action is unauthorized.'], 403);
-    }
+        }
     }
 
 
