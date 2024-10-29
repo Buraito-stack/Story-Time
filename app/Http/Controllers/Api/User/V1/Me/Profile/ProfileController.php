@@ -18,23 +18,28 @@ class ProfileController extends Controller
 
     public function update(UpdateProfileRequest $request)
     {
-        $user = Auth::user();
+    $user = Auth::user();
 
-        // Debug untuk melihat semua data yang dikirim
-        \Log::info('Update Profile Data:', $request->all());
+    try {
+        $this->updateProfile($user, $request);
 
-        try {
-            $this->updateProfile($user, $request);
-
-            if ($request->filled('current_password') && $request->filled('new_password')) {
-                $this->updatePassword($user, $request);
+        if ($request->filled('current_password') && $request->filled('new_password')) {
+            if (!$this->updatePassword($user, $request)) {
+                return response()->json(['message' => 'Current password is incorrect.'], 403);
             }
-
-            return response()->json(['message' => 'Profile updated successfully.']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Profile update failed.', 'error' => $e->getMessage()], 500);
         }
+
+        $user = $user->fresh();
+
+        return response()->json([
+            'message' => 'Profile updated successfully.',
+            'data' => new ProfileResource($user) 
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Profile update failed.', 'error' => $e->getMessage()], 500);
     }
+    }
+
 
     protected function updateProfile($user, $request)
     {
@@ -66,9 +71,10 @@ class ProfileController extends Controller
     protected function updatePassword($user, $request)
     {
         if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['message' => 'Current password is incorrect.'], 403);
+            return false;
         }
 
         $user->update(['password' => Hash::make($request->new_password)]);
+        return true;
     }
 }

@@ -56,7 +56,7 @@ class User extends Authenticatable
 
     public function stories()
     {
-        return $this->hasMany(Story::class, 'author_id');
+        return $this->hasMany(Story::class, 'user_id');
     }
 
     public function bookmarks()

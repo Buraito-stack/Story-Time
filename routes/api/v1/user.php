@@ -34,7 +34,7 @@ Route::prefix('v1/user')->group(function () {
                 ->name('profile.')
                 ->group(function () {
                     Route::get('/', 'show')->name('show');
-                    Route::put('/', 'update')->name('update');
+                    Route::post('/', 'update')->name('update');
                 });
 
             Route::controller(BookmarkController::class)
@@ -53,7 +53,7 @@ Route::prefix('v1/user')->group(function () {
                     Route::get('', 'index')->name('index');
                     Route::get('/{story}', 'show')->name('show');
                     Route::post('', 'store')->name('store');
-                    Route::put('/{story}', 'update')->name('update');
+                    Route::post('/{story}', 'update')->name('update');
                     Route::delete('/{story}', 'destroy')->name('destroy');
                 });
         });

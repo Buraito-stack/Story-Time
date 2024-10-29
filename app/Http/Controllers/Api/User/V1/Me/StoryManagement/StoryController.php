@@ -29,6 +29,7 @@ class StoryController extends Controller
      */
     public function store(StoryRequest $request)
     {
+        
         $story              = new Story();
         $story->user_id     = Auth::id(); 
         $story->title       = $request->title; 
@@ -48,11 +49,14 @@ class StoryController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function update(StoryRequest $request, Story $story) 
+    public function update(StoryRequest $request, Story $story)
     {
         $this->authorize('update', $story);
 
-        $story->update($request->validated());
+        $story->title       = $request->title;
+        $story->category_id = $request->category;
+        $story->content     = $request->content;
+        $story->save();
 
         if ($request->hasFile('cover_image')) {
             $this->deleteOldFile($story);
@@ -91,8 +95,7 @@ class StoryController extends Controller
         $fileName = $file->getClientOriginalName(); 
         $fileSize = $file->getSize(); 
         $fileType = $file->getMimeType(); 
-
-        // Create the file record and associate it with the story
+        
         $story->coverImage()->create([
             'file_name' => $fileName,
             'file_path' => $path,

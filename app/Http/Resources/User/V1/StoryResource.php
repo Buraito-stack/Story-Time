@@ -21,6 +21,7 @@ class StoryResource extends JsonResource
                 'avatar' => $this->author->getAvatarUrlAttribute(),
             ],
             'category'    => [
+                'id'   => $this->category->id,
                 'name' => $this->category->name,
             ],
             'short_content' => Str::limit($this->content, 100),  

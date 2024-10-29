@@ -19,7 +19,7 @@ class ProfileResource extends JsonResource
             'name'       => $this->name,
             'username'   => $this->username,
             'email'      => $this->email,
-            'avatar'     => $this->profilePicture->file_path ?? null, 
+            'avatar'     => $this->getAvatarUrlAttribute(),
             'about_me'   => $this->about_me,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

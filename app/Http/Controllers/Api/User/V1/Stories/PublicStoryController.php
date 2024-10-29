@@ -14,16 +14,14 @@ class PublicStoryController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->input('sort_by', 'newest'); 
+        $sortBy   = $request->input('sort_by', 'newest'); 
         $category = $request->input('category', null); 
-        $search = $request->input('search', null); 
+        $search   = $request->input('search', null); 
     
         $query = Story::query();
     
         if ($category) {
-            $query->whereHas('category', function ($q) use ($category) {
-                $q->where('name', $category);
-            });
+            $query->where('category_id', $category);
         }
     
         if ($search) {
