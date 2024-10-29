@@ -29,9 +29,9 @@ class FullStoryResource extends JsonResource
                 'name' => $this->category->name,
             ] : null,
             'content'       => $this->content,
-            'bookmarked_by' => $this->bookmarks ? $this->bookmarks->pluck('id') : [],
-            'created_at'    => $this->created_at ,
-            'updated_at'    => $this->updated_at ,
+            'bookmarked_by' => $this->bookmarks ? $this->bookmarks->count() : 0,
+            'created_at'    => $this->created_at ? $this->created_at->toDateTimeString() : null,
+            'updated_at'    => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
         ];
     }
 }
