@@ -29,7 +29,7 @@ class StoryController extends Controller
      */
     public function store(StoryRequest $request)
     {
-        
+
         $story              = new Story();
         $story->user_id     = Auth::id(); 
         $story->title       = $request->title; 
@@ -45,41 +45,50 @@ class StoryController extends Controller
     }
     
     /**
-     * Update the specified story.
-     *
-     * @throws AuthorizationException
-     */
+    * Update the specified story.
+    *
+    * @throws AuthorizationException
+    */
     public function update(StoryRequest $request, Story $story)
     {
-        $this->authorize('update', $story);
+        try {
+            $this->authorize('update', $story);
 
-        $story->title       = $request->title;
-        $story->category_id = $request->category;
-        $story->content     = $request->content;
-        $story->save();
+            $story->title       = $request->title;
+            $story->category_id = $request->category;
+            $story->content     = $request->content;
+            $story->save();
 
-        if ($request->hasFile('cover_image')) {
-            $this->deleteOldFile($story);
-            $this->uploadFile($request->file('cover_image'), $story);
+            if ($request->hasFile('cover_image')) {
+                $this->deleteOldFile($story);
+                $this->uploadFile($request->file('cover_image'), $story);
+            }
+
+            return new StoryResource($story);
+        } catch (AuthorizationException $e) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
         }
-
-        return new StoryResource($story);
     }
 
     /**
-     * Remove the specified story.
-     *
-     * @throws AuthorizationException
-     */
+    * Remove the specified story.
+    *
+    * @throws AuthorizationException
+    */
     public function destroy(Story $story) 
     {
+    try {
         $this->authorize('delete', $story);
 
         $this->deleteOldFile($story);
         $story->delete();
 
         return response()->noContent(); 
+    } catch (AuthorizationException $e) {
+        return response()->json(['message' => 'This action is unauthorized.'], 403);
     }
+    }
+
 
     /**
      * Upload a file and associate it with the story.
