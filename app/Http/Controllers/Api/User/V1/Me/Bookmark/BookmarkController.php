@@ -13,7 +13,9 @@ class BookmarkController extends Controller
     {
         $user = Auth::user();
 
-        $bookmarkedStories = $user->bookmarks()->with(['author', 'category', 'coverImage'])->paginate(4);
+        $bookmarkedStories = $user->bookmarks()
+            ->with(['author', 'category', 'coverImage'])
+            ->paginate(4);
 
         return StoryResource::collection($bookmarkedStories);
     }
