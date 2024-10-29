@@ -19,7 +19,7 @@ class StoryController extends Controller
     {
         $stories = Story::with(['author', 'category']) 
             ->where('user_id', Auth::id())
-            ->get();
+            ->paginate(10);
         
         return StoryResource::collection($stories);
     }
