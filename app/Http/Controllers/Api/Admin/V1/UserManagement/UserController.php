@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Admin\V1\UserManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\V1\UserCollection;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller

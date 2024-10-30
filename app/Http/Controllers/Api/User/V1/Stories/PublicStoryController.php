@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User\V1\FullStoryResource;
 use App\Http\Resources\User\V1\StoryResource;
 use App\Models\Story;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
