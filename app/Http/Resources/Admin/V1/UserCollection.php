@@ -23,22 +23,4 @@ class UserCollection extends ResourceCollection
     {
         return UserResource::collection($this->collection)->toArray($request);
     }
-
-    /**
-     * Prepare the resource for serialization.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function with($request)
-    {
-        return [
-            'meta' => [
-                'current_page' => $this->currentPage(),
-                'last_page'    => $this->lastPage(),
-                'per_page'     => $this->perPage(),
-                'total'        => $this->total(),
-            ],
-        ];
-    }
 }

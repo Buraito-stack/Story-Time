@@ -14,9 +14,9 @@ class PublicStoryController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy   = $request->input('sort_by', 'newest'); 
-        $category = $request->input('category', null); 
-        $search   = $request->input('search', null); 
+        $sortBy   = $request->input('sort_by', 'newest');
+        $category = $request->input('category', null);
+        $search   = $request->input('search', null);
     
         $query = Story::query();
     
@@ -25,14 +25,12 @@ class PublicStoryController extends Controller
         }
     
         if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%');
-            });
+            $query->where('title', 'like', '%' . $search . '%');
         }
     
         switch ($sortBy) {
             case 'popular':
-                $query->orderBy('views', 'desc'); 
+                $query->orderBy('views', 'desc');
                 break;
             case 'newest':
                 $query->orderBy('created_at', 'desc');
@@ -49,16 +47,17 @@ class PublicStoryController extends Controller
         }
     
         $stories = $query->with(['author.profilePicture', 'category'])
-                          ->paginate(12)
-                          ->withQueryString(); 
-          
-        $storyIds = $stories->pluck('id');
-        
-        $bookmarks = Auth::user()->bookmarks()
-            ->whereIn('id' , $storyIds);
+                         ->paginate(12)
+                         ->withQueryString();
     
-        return StoryResource::collection($stories);
-    }   
+        $bookmarkedStoryIds = Auth::user()
+            ? Auth::user()->bookmarks()->pluck('id')->toArray()
+            : [];
+    
+        return StoryResource::collection($stories)
+            ->additional(['bookmarkedStoryIds' => $bookmarkedStoryIds]);
+    }
+    
 
     /**
      * Display the specified resource.
