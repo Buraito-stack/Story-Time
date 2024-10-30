@@ -52,25 +52,8 @@ class ProfileController extends Controller
         $user->update($updateData); 
 
         if ($request->hasFile('avatar')) {
-            $this->handleAvatarUpload($user, $request->file('avatar'));
+            $user->uploadPicture($request->file('avatar'), 'avatars');
         }
-    }
-
-    protected function handleAvatarUpload($user, $avatar)
-    {
-        if ($user->profilePicture) {
-            \Storage::disk('public')->delete($user->profilePicture->file_path); 
-            $user->profilePicture()->delete();
-        }
-
-        $avatarPath = $avatar->store('avatars', 'public');
-
-        $user->profilePicture()->create([
-            'file_name' => $avatar->getClientOriginalName(),
-            'file_path' => $avatarPath,
-            'file_size' => $avatar->getSize(),
-            'file_type' => $avatar->getMimeType(),
-        ]);
     }
 
     protected function updatePassword($user, $request)
@@ -79,7 +62,7 @@ class ProfileController extends Controller
             return false;
         }
 
-        $user->password = $request->new_password;
+        $user->password = $request->new_password; 
         $user->save(); 
         return true;
     }

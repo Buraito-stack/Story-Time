@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasPicture;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model
 {
-    use HasFactory;
+    use HasFactory , HasPicture;
 
     protected $fillable = [
         'title', 
