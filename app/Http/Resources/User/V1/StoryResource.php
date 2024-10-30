@@ -3,7 +3,6 @@
 namespace App\Http\Resources\User\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Str; 
 
 class StoryResource extends JsonResource
