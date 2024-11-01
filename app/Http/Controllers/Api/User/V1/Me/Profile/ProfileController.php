@@ -32,7 +32,6 @@ class ProfileController extends Controller
             $user = $user->fresh();
 
             return response()->json([
-                'message' => 'Profile updated successfully.',
                 'data'    => new ProfileResource($user) 
             ]);
         } catch (\Exception $e) {

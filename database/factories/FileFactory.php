@@ -16,7 +16,7 @@ class FileFactory extends Factory
     {
         return [
             'file_name' => $this->faker->word . '.jpg',
-            'file_path' => 'avatars/' . $this->faker->uuid . '.jpg', 
+            'file_path' => 'uploads/' . $this->faker->uuid . '.jpg', 
             'file_size' => $this->faker->numberBetween(1024, 2048), 
             'file_type' => 'image/jpeg',
         ];
