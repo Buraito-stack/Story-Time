@@ -17,23 +17,23 @@ class StoryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'           => $this->id,
-            'title'        => $this->title,
-            'cover_image'  => $this->getCoverImageUrlAttribute(),
-            'views'        => $this->views,
-            'author'       => $this->author ? [
+            'id'              => $this->id,
+            'title'           => $this->title,
+            'cover_image'     => $this->getCoverImageUrlAttribute(),
+            'views'           => $this->views,
+            'author'          => $this->author ? [
                 'id'    => $this->author->id,
                 'name'  => $this->author->name,
                 'email' => $this->author->email,
             ] : null,
-            'category'     => $this->category ? [
+            'category'         => $this->category ? [
                 'id'   => $this->category->id,
                 'name' => $this->category->name,
             ] : null,
-            'short_content' => Str::limit($this->content, 100), 
+            'short_content'    => Str::limit($this->content, 100), 
             'bookmarked_count' => $this->bookmarks_count,
-            'created_at'    => $this->created_at ? $this->created_at->toDateTimeString() : null,
-            'updated_at'    => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
+            'created_at'       => $this->created_at ? $this->created_at->toDateTimeString() : null,
+            'updated_at'       => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
         ];
     }
 }
