@@ -28,11 +28,11 @@ class StoryController extends Controller
      */
     public function store(StoryRequest $request)
     {
-        $story = new Story();
-        $story->user_id = Auth::id(); 
-        $story->title = $request->title; 
+        $story              = new Story();
+        $story->user_id     = Auth::id(); 
+        $story->title       = $request->title; 
         $story->category_id = $request->category; 
-        $story->content = $request->content;
+        $story->content     = $request->content;
         $story->save(); 
     
         if ($request->hasFile('cover_image')) {
@@ -52,9 +52,9 @@ class StoryController extends Controller
         try {
             $this->authorize('update', $story);
 
-            $story->title = $request->title;
+            $story->title       = $request->title;
             $story->category_id = $request->category;
-            $story->content = $request->content;
+            $story->content     = $request->content;
             $story->save();
 
             if ($request->hasFile('cover_image')) {
