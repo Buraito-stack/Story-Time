@@ -21,8 +21,6 @@ class ProfileResource extends JsonResource
             'email'      => $this->email,
             'avatar'     => $this->getAvatarUrlAttribute(),
             'about_me'   => $this->about_me,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }
