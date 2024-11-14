@@ -51,23 +51,20 @@ class StoryController extends Controller
     {
         try {
             $this->authorize('update', $story);
-
-            $story->title       = $request->title;
-            $story->category_id = $request->category;
-            $story->content     = $request->content;
-            $story->save();
-
+    
+            $story->update($request->only(['title', 'category', 'content']));
+    
             if ($request->hasFile('cover_image')) {
                 $story->deletePicture();
                 $story->uploadPicture($request->file('cover_image'), 'covers');
             }
-
+    
             return new StoryResource($story);
         } catch (AuthorizationException $e) {
             return response()->json(['message' => 'This action is unauthorized.'], 403);
         }
     }
-
+    
     /**
     * Remove the specified story.
     *

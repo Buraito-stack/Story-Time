@@ -12,11 +12,13 @@ class StoryRequest extends FormRequest
 
     public function rules(): array
     {
+        $isUpdate = $this->route('story') !== null;
+    
         return [
-            'title'       => 'required|string|max:255', 
-            'category'    => 'required|exists:categories,id', 
-            'content'     => 'required|string', 
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+            'title'       => $isUpdate ? 'sometimes|string|max:255' : 'required|string|max:255',
+            'category'    => $isUpdate ? 'sometimes|exists:categories,id' : 'required|exists:categories,id',
+            'content'     => $isUpdate ? 'sometimes|string' : 'required|string',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
