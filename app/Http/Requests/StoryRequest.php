@@ -15,10 +15,10 @@ class StoryRequest extends FormRequest
         $isUpdate = $this->route('story') !== null;
     
         return [
-            'title'       => $isUpdate ? 'sometimes|string|max:255' : 'required|string|max:255',
-            'category'    => $isUpdate ? 'sometimes|exists:categories,id' : 'required|exists:categories,id',
-            'content'     => $isUpdate ? 'sometimes|string' : 'required|string',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'         => $isUpdate ? 'sometimes|string|max:255' : 'required|string|max:255',
+            'category'      => $isUpdate ? 'sometimes|exists:categories,id' : 'required|exists:categories,id',
+            'content'       => $isUpdate ? 'sometimes|string' : 'required|string',
+            'cover_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:51200',
         ];
     }
 }

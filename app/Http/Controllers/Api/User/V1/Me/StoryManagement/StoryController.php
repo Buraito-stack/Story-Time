@@ -36,7 +36,7 @@ class StoryController extends Controller
         $story->save(); 
     
         if ($request->hasFile('cover_image')) {
-            $story->uploadPicture($request->file('cover_image'), 'covers');
+            $story->manageCoverImages($request->file('cover_image'), 'covers');
         }
         
         return new StoryResource($story); 
@@ -53,12 +53,11 @@ class StoryController extends Controller
             $this->authorize('update', $story);
     
             $story->update($request->only(['title', 'category', 'content']));
-    
+
             if ($request->hasFile('cover_image')) {
-                $story->deletePicture();
-                $story->uploadPicture($request->file('cover_image'), 'covers');
+                $story->manageCoverImages($request->file('cover_image'), 'covers');
             }
-    
+               
             return new StoryResource($story);
         } catch (AuthorizationException $e) {
             return response()->json(['message' => 'This action is unauthorized.'], 403);

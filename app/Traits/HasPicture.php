@@ -16,19 +16,33 @@ trait HasPicture
      */
     public function uploadPicture($file, $directory = 'uploads')
     {
-        if ($this->picture) {
-            Storage::disk('public')->delete($this->picture->file_path);
-            $this->picture()->delete();
+        if ($directory == 'avatars') {
+            if ($this->profilePicture) {
+                Storage::disk('public')->delete($this->profilePicture->file_path);
+                $this->profilePicture()->delete();
+            }
+
+            $filePath = $file->store($directory, 'public');
+            $this->profilePicture()->create([
+                'file_name' => $file->getClientOriginalName(),
+                'file_path' => $filePath,
+                'file_size' => $file->getSize(),
+                'file_type' => $file->getMimeType(),
+            ]);
+        } else {
+            if ($this->coverImage()->count() >= 5) {
+                $this->coverImage()->oldest()->first()->delete();
+            }
+
+            $filePath = $file->store($directory, 'public');
+
+            $this->coverImage()->create([
+                'file_name' => $file->getClientOriginalName(),
+                'file_path' => $filePath,
+                'file_size' => $file->getSize(),
+                'file_type' => $file->getMimeType(),
+            ]);
         }
-
-        $filePath = $file->store($directory, 'public');
-
-        $this->picture()->create([
-            'file_name' => $file->getClientOriginalName(),
-            'file_path' => $filePath,
-            'file_size' => $file->getSize(),
-            'file_type' => $file->getMimeType(),
-        ]);
     }
 
     /**
@@ -38,19 +52,29 @@ trait HasPicture
      */
     public function deletePicture()
     {
-        if ($this->picture) {
-            Storage::disk('public')->delete($this->picture->file_path);
-            $this->picture()->delete();
+        if ($this->profilePicture) {
+            Storage::disk('public')->delete($this->profilePicture->file_path);
+            $this->profilePicture()->delete();
         }
     }
 
     /**
-     * Define a polymorphic relationship for the picture.
+     * Define a polymorphic relationship for the profile picture.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
-    public function picture()
+    public function profilePicture()
     {
         return $this->morphOne(File::class, 'fileable');
+    }
+
+    /**
+     * Define a polymorphic relationship for cover images.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function coverImage()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 }
