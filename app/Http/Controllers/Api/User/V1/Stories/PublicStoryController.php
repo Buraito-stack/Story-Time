@@ -49,12 +49,7 @@ class PublicStoryController extends Controller
                          ->paginate(12)
                          ->withQueryString();
     
-        $bookmarkedStoryIds = Auth::user()
-            ? Auth::user()->bookmarks()->pluck('id')->toArray()
-            : [];
-    
-        return StoryResource::collection($stories)
-            ->additional(['bookmarkedStoryIds' => $bookmarkedStoryIds]);
+        return StoryResource::collection($stories);
     }
     
 
