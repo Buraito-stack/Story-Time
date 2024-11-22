@@ -45,17 +45,4 @@ class Story extends Model
     {
         return $this->coverImage->map(fn($image) => asset('storage/' . $image->file_path))->all();
     }
-    
-    public function manageCoverImages($newImages, $directory = 'covers')
-    {
-        $newImages = is_array($newImages) ? $newImages : [$newImages];
-    
-        $deleteCount = max($this->coverImage()->count() + count($newImages) - 5, 0);
-    
-        $this->coverImage()->oldest()->take($deleteCount)->get()->each->delete();
-    
-        foreach (array_slice($newImages, 0, 5 - $this->coverImage()->count()) as $image) {
-            $this->uploadPicture($image, $directory);
-        }
-    }
 }

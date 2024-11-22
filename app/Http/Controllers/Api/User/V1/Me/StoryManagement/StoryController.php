@@ -22,48 +22,40 @@ class StoryController extends Controller
         
         return StoryResource::collection($stories);
     }
-
-    /**
-     * Store a newly created story.
-     */
     public function store(StoryRequest $request)
     {
         $story              = new Story();
-        $story->user_id     = Auth::id(); 
-        $story->title       = $request->title; 
-        $story->category_id = $request->category; 
+        $story->user_id     = Auth::id();
+        $story->title       = $request->title;
+        $story->category_id = $request->category;
         $story->content     = $request->content;
-        $story->save(); 
-    
+        $story->save();
+
         if ($request->hasFile('cover_image')) {
-            $story->manageCoverImages($request->file('cover_image'), 'covers');
+            foreach ($request->file('cover_image') as $image) {
+                $story->uploadPicture($image, 'covers');
+            }
         }
-        
-        return new StoryResource($story); 
+
+        return new StoryResource($story);
     }
-    
-    /**
-    * Update the specified story.
-    *
-    * @throws AuthorizationException
-    */
+
     public function update(StoryRequest $request, Story $story)
     {
-        try {
-            $this->authorize('update', $story);
-    
-            $story->update($request->only(['title', 'category', 'content']));
+        $this->authorize('update', $story);
 
-            if ($request->hasFile('cover_image')) {
-                $story->manageCoverImages($request->file('cover_image'), 'covers');
+        $story->update($request->only(['title', 'category', 'content']));
+
+        if ($request->hasFile('cover_image')) {
+            $story->deletePicture(); 
+            foreach ($request->file('cover_image') as $image) {
+                $story->uploadPicture($image, 'covers');
             }
-               
-            return new StoryResource($story);
-        } catch (AuthorizationException $e) {
-            return response()->json(['message' => 'This action is unauthorized.'], 403);
         }
+
+        return new StoryResource($story);
     }
-    
+
     /**
     * Remove the specified story.
     *

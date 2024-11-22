@@ -19,6 +19,7 @@ class StoryRequest extends FormRequest
             'category'      => $isUpdate ? 'sometimes|exists:categories,id' : 'required|exists:categories,id',
             'content'       => $isUpdate ? 'sometimes|string' : 'required|string',
             'cover_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:51200',
+            'cover_image'   => 'array|max:5',
         ];
     }
 }
